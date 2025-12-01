@@ -368,7 +368,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.95);
             z-index: 3000;
             display: none;
             justify-content: center;
@@ -428,14 +428,10 @@
             transform: translateY(-3px);
         }
 
-        .ad-secondary {
-            background: var(--accent);
-            color: var(--text);
-        }
-
-        .ad-secondary:hover {
-            background: #1a3a6e;
-            transform: translateY(-3px);
+        .ad-countdown {
+            margin-top: 15px;
+            font-size: 14px;
+            color: var(--text-secondary);
         }
 
         /* ===== Mobile Responsive ===== */
@@ -586,11 +582,11 @@
     <div class="ad-overlay" id="adOverlay">
         <div class="ad-content">
             <h2 class="ad-title">Support Our Site</h2>
-            <p class="ad-message">Please consider visiting our sponsor to help keep Watcher Zone free for everyone. It only takes a moment!</p>
+            <p class="ad-message">Please visit our sponsor to help keep Watcher Zone free for everyone. You will be redirected automatically in <span id="countdown">5</span> seconds.</p>
             <div class="ad-buttons">
-                <button class="ad-btn ad-primary" id="visitAdBtn">Visit Sponsor</button>
-                <button class="ad-btn ad-secondary" id="closeAdBtn">Maybe Later</button>
+                <button class="ad-btn ad-primary" id="visitAdBtn">Visit Sponsor Now</button>
             </div>
+            <div class="ad-countdown" id="countdownText">Redirecting in <span id="countdownNumber">5</span> seconds...</div>
         </div>
     </div>
 
@@ -603,8 +599,12 @@
     </footer>
 
     <script>
-        // Movie data with categories
+        // Movie data with categories - Latest movies first
         const allMovies = [
+            // Latest Movies (added first to appear at top)
+            { url: "https://youtu.be/P_VDVjaa7tk?si=Tz6ANp0Yrzr5STCM", category: "south", title: "Latest South Indian Blockbuster" },
+            { url: "https://youtu.be/52TD-4BP59s?si=9D7fNXip_XhspG54", category: "pj", title: "New Punjabi Comedy" },
+            
             // Bollywood Movies
             { url: "https://www.youtube.com/watch?v=DOuecVexDsQ", category: "bollywood", title: "Action Thriller" },
             { url: "https://www.youtube.com/watch?v=coQqNwbAAnU", category: "bollywood", title: "Romantic Drama" },
@@ -628,15 +628,6 @@
             { url: "https://www.youtube.com/watch?v=Bu_KE2It0M4", category: "hollywood", title: "Sci-Fi Mystery" },
             { url: "https://www.youtube.com/watch?v=ro9KNauDdqQ", category: "hollywood", title: "Action Comedy" },
             { url: "https://www.youtube.com/watch?v=Jlzc-hjiMvg", category: "hollywood", title: "Drama Series" },
-
-           // South Indian Movies
-            { url: "https://youtu.be/P_VDVjaa7tk?si=Tz6ANp0Yrzr5STCM", category: "south", title: "Sci-Fi Adventure" },
-
-            
-
-            // Punjabi Movies
-            { url: "https://youtu.be/52TD-4BP59s?si=9D7fNXip_XhspG54", category: "pj", title: "Sci-Fi Adventure" },
-            
             
             // Animation Movies
             { url: "https://www.youtube.com/watch?v=g0uCU8mvmdY", category: "animation", title: "Animated Adventure" },
@@ -677,7 +668,8 @@
         const loadingEl = document.getElementById('loading');
         const adOverlay = document.getElementById('adOverlay');
         const visitAdBtn = document.getElementById('visitAdBtn');
-        const closeAdBtn = document.getElementById('closeAdBtn');
+        const countdownNumber = document.getElementById('countdownNumber');
+        const countdownText = document.getElementById('countdownText');
 
         // State variables
         let currentCategory = 'all';
@@ -686,9 +678,10 @@
         let filteredMovies = [];
         let currentAdLink = '';
         let adTimer;
+        let countdownTimer;
         let lastAdTime = 0;
-        const minAdInterval = 5 * 60 * 1000; // 5 minutes minimum between ads
-        const maxAdInterval = 15 * 60 * 1000; // 15 minutes maximum between ads
+        const minAdInterval = 3 * 60 * 1000; // 3 minutes minimum between ads
+        const maxAdInterval = 8 * 60 * 1000; // 8 minutes maximum between ads
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
@@ -697,8 +690,8 @@
             setupCategoryButtons();
             setupAdSystem();
             
-            // Start the ad timer
-            scheduleNextAd();
+            // Show first ad immediately when page loads
+            setTimeout(showAdOverlay, 2000);
         });
 
         // Extract YouTube ID
@@ -730,6 +723,8 @@
                 'all': 'All Movies',
                 'bollywood': 'Bollywood Movies',
                 'hollywood': 'Hollywood Movies',
+                'south': 'South Indian Movies',
+                'pj': 'Punjabi Movies',
                 'animation': 'Animation Movies',
                 'horror': 'Horror Movies'
             };
@@ -853,58 +848,58 @@
         // Setup ad system
         function setupAdSystem() {
             visitAdBtn.addEventListener('click', function() {
-                if (currentAdLink) {
-                    window.open(currentAdLink, '_blank');
-                }
-                closeAdOverlay();
-                // Reset the ad timer after a user visits an ad
-                scheduleNextAd();
-            });
-            
-            closeAdBtn.addEventListener('click', function() {
-                closeAdOverlay();
-                // Schedule next ad sooner if user closes without visiting
-                scheduleNextAd(2 * 60 * 1000); // 2 minutes
+                redirectToAd();
             });
         }
 
-        // Show ad overlay
+        // Show ad overlay with countdown
         function showAdOverlay() {
             // Select a random ad link
             currentAdLink = adLinks[Math.floor(Math.random() * adLinks.length)];
             adOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
             lastAdTime = Date.now();
+            
+            // Start countdown from 5 seconds
+            let countdown = 5;
+            countdownNumber.textContent = countdown;
+            
+            countdownTimer = setInterval(() => {
+                countdown--;
+                countdownNumber.textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(countdownTimer);
+                    redirectToAd();
+                }
+            }, 1000);
+        }
+
+        // Redirect to ad
+        function redirectToAd() {
+            clearInterval(countdownTimer);
+            window.open(currentAdLink, '_blank');
+            closeAdOverlay();
+            // Schedule next ad
+            scheduleNextAd();
         }
 
         // Close ad overlay
         function closeAdOverlay() {
+            clearInterval(countdownTimer);
             adOverlay.classList.remove('active');
             document.body.style.overflow = 'auto';
         }
 
         // Schedule next ad
-        function scheduleNextAd(customDelay = null) {
+        function scheduleNextAd() {
             // Clear any existing timer
             if (adTimer) {
                 clearTimeout(adTimer);
             }
             
-            // Calculate next ad time
-            const timeSinceLastAd = Date.now() - lastAdTime;
-            let delay;
-            
-            if (customDelay) {
-                delay = customDelay;
-            } else {
-                // Random delay between min and max intervals
-                delay = Math.random() * (maxAdInterval - minAdInterval) + minAdInterval;
-                
-                // Ensure we don't show ads too frequently
-                if (timeSinceLastAd < minAdInterval) {
-                    delay = minAdInterval - timeSinceLastAd + Math.random() * 60000; // Add up to 1 minute
-                }
-            }
+            // Calculate next ad time (random between 3-8 minutes)
+            const delay = Math.random() * (maxAdInterval - minAdInterval) + minAdInterval;
             
             // Schedule the ad
             adTimer = setTimeout(showAdOverlay, delay);
