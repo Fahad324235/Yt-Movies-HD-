@@ -539,12 +539,12 @@
         <!-- Categories -->
         <div class="categories">
             <button class="category-btn active" data-category="all">All Short Clips</button>
-            <button class="category-btn" data-category="bollywood">Hollywood Short</button>
-            <button class="category-btn" data-category="bollywood">Bollywood Shorts</button>
-            <button class="category-btn" data-category="south">South Indian Shorts</button>
+            <button class="category-btn" data-category="ho">Hollywood Short</button>
+            <button class="category-btn" data-category="bo">Bollywood Shorts</button>
+            <button class="category-btn" data-category="so">South Indian Shorts</button>
             <button class="category-btn" data-category="pj">Punjabi Shorts</button>
-            <button class="category-btn" data-category="animation">Animation Clips</button>
-            <button class="category-btn" data-category="horror">Horror Shorts Clips</button>
+            <button class="category-btn" data-category="an">Animation Clips</button>
+            <button class="category-btn" data-category="hor">Horror Shorts Clips</button>
         </div>
 
         <h2 class="section-title" id="currentCategory">All Short Clips</h2>
@@ -602,51 +602,8 @@
         // Movie data with categories - Latest movies first
         const allMovies = [
             // Latest Movies (added first to appear at top)
-            { url: "https://youtu.be/GvHR5uzu_-0?si=35Rqv6sHpnH8HcXn", category: "Sh", title: "Passengers (2016)" },
-            { url: "https://youtu.be/-SkQ1jJNu_A?si=AkgK7s1ggjdCDt-q", category: "bollywood", title: "Koi... Mil Gaya (2003)" },
-            { url: "https://youtu.be/P_VDVjaa7tk?si=Tz6ANp0Yrzr5STCM", category: "south", title: "Latest South Indian Blockbuster" },
-            { url: "https://youtu.be/52TD-4BP59s?si=9D7fNXip_XhspG54", category: "pj", title: "New Punjabi Comedy" },
-            
-            // Bollywood Movies
-            { url: "https://www.youtube.com/watch?v=DOuecVexDsQ", category: "bollywood", title: "Action Thriller" },
-            { url: "https://www.youtube.com/watch?v=coQqNwbAAnU", category: "bollywood", title: "Romantic Drama" },
-            { url: "https://www.youtube.com/watch?v=wolQzV1UwMM", category: "bollywood", title: "Comedy Special" },
-            { url: "https://www.youtube.com/watch?v=CT0p4_ElBaw", category: "bollywood", title: "Family Entertainer" },
-            { url: "https://www.youtube.com/watch?v=3458kWoEAQQ", category: "bollywood", title: "Musical Extravaganza" },
-            { url: "https://www.youtube.com/watch?v=xZxLgOdkICM", category: "bollywood", title: "Drama Series" },
-            { url: "https://www.youtube.com/watch?v=ZavDljJsC7M", category: "bollywood", title: "Suspense Thriller" },
-            { url: "https://www.youtube.com/watch?v=gAbhDuNzAAY", category: "bollywood", title: "Romantic Comedy" },
-            { url: "https://www.youtube.com/watch?v=mT16a5Lh3fA", category: "bollywood", title: "Action Drama" },
-            { url: "https://www.youtube.com/watch?v=T3-MLV7KYPg", category: "bollywood", title: "Period Drama" },
-            
-            // Hollywood Movies
-            { url: "https://www.youtube.com/watch?v=DRQZFU4VOaA", category: "hollywood", title: "Sci-Fi Adventure" },
-            { url: "https://www.youtube.com/watch?v=NeX5KYGj7qw", category: "hollywood", title: "Superhero Saga" },
-            { url: "https://www.youtube.com/watch?v=Dqt4cSsjYUk", category: "hollywood", title: "Action Blockbuster" },
-            { url: "https://www.youtube.com/watch?v=cDZL-LcyyoM", category: "hollywood", title: "Epic Fantasy" },
-            { url: "https://www.youtube.com/watch?v=PpC479fcTjw", category: "hollywood", title: "Crime Thriller" },
-            { url: "https://www.youtube.com/watch?v=PLQb5bVojL4", category: "hollywood", title: "Mystery Unfolded" },
-            { url: "https://www.youtube.com/watch?v=daKNyklaBDU", category: "hollywood", title: "Adventure Quest" },
-            { url: "https://www.youtube.com/watch?v=Bu_KE2It0M4", category: "hollywood", title: "Sci-Fi Mystery" },
-            { url: "https://www.youtube.com/watch?v=ro9KNauDdqQ", category: "hollywood", title: "Action Comedy" },
-            { url: "https://www.youtube.com/watch?v=Jlzc-hjiMvg", category: "hollywood", title: "Drama Series" },
-            
-            // Animation Movies
-            { url: "https://www.youtube.com/watch?v=g0uCU8mvmdY", category: "animation", title: "Animated Adventure" },
-            { url: "https://www.youtube.com/watch?v=ZbBYcAcfXVc", category: "animation", title: "Kids Fantasy" },
-            { url: "https://www.youtube.com/watch?v=WssVA0dV92A", category: "animation", title: "Family Animation" },
-            { url: "https://www.youtube.com/watch?v=IND9kHxVLnI", category: "animation", title: "Cartoon Fun" },
-            { url: "https://www.youtube.com/watch?v=nYXJxMBnQyE", category: "animation", title: "Animated Comedy" },
-            { url: "https://www.youtube.com/watch?v=9ciVkR_84iw", category: "animation", title: "Fantasy World" },
-            
-            // Horror Movies
-            { url: "https://www.youtube.com/watch?v=7Cu1XpAEvHE", category: "horror", title: "Horror Nights" },
-            { url: "https://www.youtube.com/watch?v=CT0p4_ElBaw", category: "horror", title: "Supernatural Thriller" },
-            { url: "https://www.youtube.com/watch?v=Jlzc-hjiMvg", category: "horror", title: "Psychological Horror" },
-            { url: "https://www.youtube.com/watch?v=g0uCU8mvmdY", category: "horror", title: "Haunted Mystery" },
-            { url: "https://www.youtube.com/watch?v=ZbBYcAcfXVc", category: "horror", title: "Dark Fantasy" },
-            { url: "https://www.youtube.com/watch?v=WssVA0dV92A", category: "horror", title: "Suspense Horror" }
-        ];
+            { url: "https://youtu.be/GvHR5uzu_-0?si=35Rqv6sHpnH8HcXn", category: "ho", title: "Passengers (2016)" },
+      ];
 
         // Ad links
         const adLinks = [
